@@ -11,18 +11,19 @@ export default gql`
   }
 
   input UserInput {
-    id: ID!
     email: String!
     username: String!
     password: String!
-    name: String!
+  }
+
+  type Profile {
+    email: String!
+    username: String!
   }
 
   type User {
     id: ID!
-    email: String!
-    username: String!
-    name: String!
+    profile: Profile!
     createdAt: String!
   }
 `
