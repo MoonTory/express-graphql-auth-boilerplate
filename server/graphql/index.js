@@ -1,5 +1,7 @@
-import apollo from './apollo';
+import typeDefs from './typedefs';
+import resolvers from './resolvers';
+
 
 export {
-  apollo
+  typeDefs, resolvers
 }

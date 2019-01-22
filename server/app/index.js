@@ -2,6 +2,9 @@
  * Node_Module dependencies.
  */
 import express, { urlencoded, json } from 'express';
+import session from 'express-session';
+import { ApolloServer } from 'apollo-server-express';
+import connectRedis from 'connect-redis';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import helmet from 'helmet';
@@ -11,13 +14,16 @@ import cors from 'cors';
  * Local_Module dependencies.
  */
 import { connectMongoDb } from '../db/mongo';
-import { errorCatcher, errorHandler } from '../utils/middlewares';
-import { apollo } from '../graphql';
+import { errorCatcher, errorHandler } from '../utils';
+import { typeDefs, resolvers } from '../graphql';
 
 /**
  * Configs.
  */
-import { NODE_ENV } from '../config';
+import { 
+  NODE_ENV, SESSION_NAME, SESSION_SECRET, SESSION_LIFETIME,
+  REDIS_HOST, REDIS_PASSWORD, REDIS_PORT
+} from '../config';
 
 /**
  * Initializing Express App.
@@ -35,14 +41,48 @@ app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
 
 /**
- * Apollo GraphQl Middleware.
- */
-apollo.applyMiddleware({ app });
-
-/**
  * Connect to MongoDb.
  */
 connectMongoDb();
+
+/**
+ * Create Redis Store.
+ */
+const RedisStore = connectRedis(session);
+
+const store = new RedisStore({
+  host: REDIS_HOST,
+  port: REDIS_PORT,
+  pass: REDIS_PASSWORD
+});
+
+/**
+ * Express Sessions.
+ */
+app.use(session({
+  store,
+  name: SESSION_NAME,
+  secret: SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: SESSION_LIFETIME,
+    sameSite: true,
+    secure: NODE_ENV
+  }
+}));
+
+/**
+ * Apollo-Server-Express GraphQl Middleware.
+ */
+const apollo = new ApolloServer({
+  typeDefs,
+  resolvers,
+  playground: true,
+  context: ({req, res}) => ({req, res}),
+});
+
+apollo.applyMiddleware({ app });
 
 /**
  * Express Error handling.
@@ -50,4 +90,6 @@ connectMongoDb();
 app.use(errorCatcher);
 app.use(errorHandler);
 
-export default app;
+export {
+  app, apollo
+};

@@ -7,10 +7,16 @@ export default gql`
   }
 
   extend type Mutation {
-    register(input: UserInput): User
+    register(input: UserRegisterInput): User
+    login(input: UserLoginInput) User
   }
 
-  input UserInput {
+  input UserLoginInput {
+    email: String!
+    password: String!
+  }
+
+  input UserRegisterInput {
     email: String!
     username: String!
     password: String!

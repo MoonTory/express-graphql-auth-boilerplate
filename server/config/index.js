@@ -15,5 +15,15 @@ export const {
   DB_HOST = process.env.DB_HOST || '',
   DB_PORT = process.env.DB_PORT || '',
   DB_NAME = process.env.DB_NAME || '',
-  MONGO_URI = `mongodb://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}`
+  MONGO_URI = `mongodb://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}`,
+
+  // Express Session Config
+  SESSION_NAME = process.env.SESSION_NAME || '',
+  SESSION_SECRET = process.env.SESSION_SECRET || '',
+  SESSION_LIFETIME = process.env.SESSION_LIFETIME || '',
+
+  // Redis Config
+  REDIS_HOST = process.env.REDIS_HOST || '',
+  REDIS_PORT = process.env.REDIS_PORT || '',
+  REDIS_PASSWORD = process.env.REDIS_PASSWORD || ''
 } = process.env

@@ -4,8 +4,7 @@
  * Module dependencies.
  */
 
-import app from '../app';
-import { apollo } from '../graphql'
+import { app, apollo } from '../app';
 import debug from 'debug';
 import http from 'http';
 import { APP_PORT } from '../config';
