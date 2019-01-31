@@ -43,7 +43,6 @@ app.use(morgan(NODE_ENV));
 app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(passport.initialize());
 
 /**
  * Connect to MongoDb.
@@ -86,6 +85,9 @@ app.use(session({
     secure: NODE_ENV
   }
 }));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', routes);
 

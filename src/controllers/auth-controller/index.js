@@ -4,11 +4,11 @@ require('./Strategy');
 
 export default {
   
-  jwtAuth: passport.authenticate('jwt', { session: false }),
+  jwtAuth: passport.authenticate('jwt', { session: true }),
 
-  localAuth: passport.authenticate('local', { session: false }),
+  localAuth: passport.authenticate('local', { session: true }),
 
-  googleAuth: passport.authenticate('googleToken', { session: false }),
+  googleAuth: passport.authenticate('googleToken', { session: true }),
 
 
   // Login Controler Middleware

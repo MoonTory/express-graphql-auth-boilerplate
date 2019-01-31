@@ -9,7 +9,7 @@ import { UserInputError } from 'apollo-server-express';
  */
 import { UserModel } from '../../../db/models';
 import { UserService, EmailService } from '../../../services';
-import { joiValidator } from '../../helpers';
+import { joiValidator, isValidMongoId } from '../../helpers';
 
 const { validateInput, Schemas } = joiValidator;
 
@@ -18,7 +18,7 @@ export default {
     // @Query: Get all Users from DB.
     users: (root, args, { req }, info) => {
 
-      if ( req.user === undefined ) {
+      if ( isValidMongoId(req.user) ) {
         return [];
       }
 
@@ -27,7 +27,7 @@ export default {
     
     //@Query: Get specidifc user using specified ID.
     user: (root, { id }, context, info) => {
-      if (!mongoose.Types.ObjectId.isValid(id)) {
+      if ( isValidMongoId(id) ) {
         throw new UserInputError(`${id} is not a valid user ID!!!`);
       }
       return UserModel.findById(id);

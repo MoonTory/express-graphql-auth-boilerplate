@@ -1,3 +1,5 @@
 import joiValidator from './joi-gql-validator';
 
-export { joiValidator };
+import { isValidMongoId } from './isValidMongoId'
+
+export { joiValidator, isValidMongoId };

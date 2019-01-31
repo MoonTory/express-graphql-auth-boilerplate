@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { JWT_SECRET } from '../../config';
 import { UserModel } from '../../db/models';
-import { tryFunctionOrLogError } from 'apollo-utilities';
 
 export default {
 
